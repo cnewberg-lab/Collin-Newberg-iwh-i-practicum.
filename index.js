@@ -19,9 +19,7 @@ const CUSTOM_OBJECT_TYPE = "p7476106_friends";
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
 
 console.log("FINGERPRINT:", Math.random(), "FILE:", __filename, "TIME:", new Date().toISOString());
-gi
-app.get("/ping", (req, res) => res.send("pong ✅"));
-app.get("/", (req, res) => res.send("HOME ROUTE HIT ✅"));
+
 
 app.get("/update-cobj", (req, res) => {
     res.render("updates",{
@@ -33,7 +31,7 @@ app.get("/update-cobj", (req, res) => {
 app.get("/", async (req, res) => {
     const PRIVATE_APP_ACCESS = process.env.PRIVATE_APP_ACCESS_TOKEN;
     const CUSTOM_OBJECT_TYPE = "p7476106_friends";
-    const properties = ["name", "coolness", "rating"];
+    const properties = ["full_name", "name", "coolness", "rating"];
 
     const query = properties.map(p => `properties=${encodeURIComponent(p)}`).join("&");
     const listUrl = `https://api.hubspot.com/crm/v3/objects/${CUSTOM_OBJECT_TYPE}?${query}`;
@@ -63,6 +61,7 @@ app.post("/update-cobj", async (req, res) =>{
     
     const newRecord = {
         properties: {
+            full_name: req.body.full_name,
             name: req.body.name,
             coolness: req.body.coolness,
             rating: req.body.rating,
@@ -92,5 +91,6 @@ app.post("/update-cobj", async (req, res) =>{
 console.log("Token loaded?", !!process.env.PRIVATE_APP_ACCESS_TOKEN);
 
 // * Localhost
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, "0.0.0.0", () => console.log(`Listening on ${PORT}`));

@@ -12,6 +12,10 @@ html
 
     form(method="POST", action="/update-cobj")
       div
+        label(for="full_name") Full Name
+        input#full_name(type="text", name="full_name", required)
+
+      div
         label(for="name") Name
         input#name(type="text", name="name", required)
 
